@@ -31,7 +31,7 @@ public class ApiClient {
 
     }
 
-    public static ApiService getLoginService(){
+    public static ApiService getApiService(){
 
         ApiService apiService = getRetrofit().create(ApiService.class);
         return apiService;

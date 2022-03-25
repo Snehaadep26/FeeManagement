@@ -29,7 +29,7 @@ public class IntegratedRecentActivityAdapter extends RecyclerView.Adapter<Integr
     @NonNull
     @Override
     public IntegratedRecentActivityViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.Integrated_acard,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.integrated_acard,parent,false);
         IntegratedRecentActivityViewHolder integratedRecentActivityViewHolder = new IntegratedRecentActivityViewHolder(view);
 
         return integratedRecentActivityViewHolder;
@@ -54,7 +54,7 @@ public class IntegratedRecentActivityAdapter extends RecyclerView.Adapter<Integr
             name = itemView.findViewById(R.id.names);
             Amount = itemView.findViewById(R.id.amount_tv);
             month = itemView.findViewById(R.id.monthlyfee_tv);
-            date = itemView.findViewById(R.id.)
+           // date = itemView.findViewById(R.id.);
         }
     }
 }

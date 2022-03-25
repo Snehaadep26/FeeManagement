@@ -69,7 +69,7 @@ public class ActivateFrag extends Fragment {
 
     private void apiInit() {
         retrofit = ApiClient.getRetrofit();
-        apiService = ApiClient.getLoginService();
+        apiService = ApiClient.getApiService();
     }
 
     private void OverviewcardResponse() {
