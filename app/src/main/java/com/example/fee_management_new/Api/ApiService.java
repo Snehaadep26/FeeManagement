@@ -1,11 +1,13 @@
 package com.example.fee_management_new.Api;
 
 import java.util.Date;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
+import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 
@@ -44,5 +46,33 @@ public interface ApiService {
     @Headers({token, link})
     @GET("feev2/byStandards")
     Call<GetGroupStandardsResponse>  standardsCall();
+
+    @Headers({token, link})
+    @GET("feev2/getUser")
+    Call<List<GetUserInClassResponse>>  getUserInClassCall(@Query("standardId") int standardId, @Query("search") String search);
+
+    @Headers({token, link})
+    @GET("feev2/download-invoices/1255")
+    Call<DownloadInvoiceResponse>  downloadInvoiceCall();
+
+    @Headers({token, link})
+    @GET("feev2/getUser")
+    Call<List<TransactionByUserResponse>>  getTranByUserCall();
+
+    @Headers({token, link})
+    @PATCH("feev2/cancel-request/848")
+    Call<CancelRequestResponse>  cancelReqCall();
+
+    @Headers({token, link})
+    @PATCH("feev2/delete-request/872")
+    Call<DeleteRequestResponse>  deleteReqCall();
+
+    @Headers({token, link})
+    @GET("feev2/send-fee-reminder")
+    Call<SendReminderResponse>  sendReminderCall(@Query("userId") int userId, @Query("transactionId") int transactionId);
+
+    @Headers({token, link})
+    @GET("feev2/get-all-settlements")
+    Call<AllSettlementsResponse>  allSettleCall(@Query("page") int page, @Query("limit") int limit);
 
 }

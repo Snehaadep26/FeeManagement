@@ -18,8 +18,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.fee_management_new.Api.AllSettlementsResponse;
 import com.example.fee_management_new.Api.ApiClient;
 import com.example.fee_management_new.Api.ApiService;
+import com.example.fee_management_new.Api.CancelRequestResponse;
+import com.example.fee_management_new.Api.DeleteRequestResponse;
+import com.example.fee_management_new.Api.DownloadInvoiceResponse;
 import com.example.fee_management_new.Api.DownloadReportResponse;
 import com.example.fee_management_new.Api.FeeManagement;
 import com.example.fee_management_new.Api.GeneratePaymentForClassRequest;
@@ -28,7 +32,11 @@ import com.example.fee_management_new.Api.GeneratePaymentForIndividualRequest;
 import com.example.fee_management_new.Api.GeneratePaymentForIndividualResponse;
 import com.example.fee_management_new.Api.GetGroupStandardsResponse;
 import com.example.fee_management_new.Api.GetTransactionDetailsByIdResponse;
+import com.example.fee_management_new.Api.GetUserInClassResponse;
 import com.example.fee_management_new.Api.Io;
+import com.example.fee_management_new.Api.ItemAllSett;
+import com.example.fee_management_new.Api.SendReminderResponse;
+import com.example.fee_management_new.Api.TransactionByUserResponse;
 import com.example.fee_management_new.Api.UpdateOfflineTransactionRequest;
 import com.example.fee_management_new.Api.UpdateOfflineTransactionResponse;
 import com.example.fee_management_new.Api.UpdateSettingPostRequest;
@@ -58,6 +66,14 @@ public class MainActivity extends AppCompatActivity {
     GetTransactionDetailsByIdResponse getTransactionDetailsByIdResponse;
     DownloadReportResponse downloadReportResponse;
     GetGroupStandardsResponse getGroupStandardsResponse;
+    List<GetUserInClassResponse> getUserInClassResponse;
+    DownloadInvoiceResponse downloadInvoiceResponse;
+    TransactionByUserResponse transactionByUserResponse;
+    CancelRequestResponse cancelRequestResponse;
+    DeleteRequestResponse deleteRequestResponse;
+    SendReminderResponse sendReminderResponse;
+    AllSettlementsResponse allSettlementsResponse;
+
     Retrofit retrofit;
     ApiService apiService;
     int c = 0;
@@ -123,6 +139,12 @@ public class MainActivity extends AppCompatActivity {
 //        transactionDetailById();
 //        downloadReport();
 //        groupStandard();
+//        getUserInClass();
+//        downloadInvoice();
+//        cancelRequest();
+//        deleteRequest();
+//        sendReminder();
+        allSettlements();
 
     }
     public void apiInIt() {
@@ -278,6 +300,128 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<GetGroupStandardsResponse> call, Throwable t) {
                 Toast.makeText(getApplicationContext(), "error group standard", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    public void getUserInClass()
+    {
+        Call<List<GetUserInClassResponse>> call=apiService.getUserInClassCall(405,"");
+        call.enqueue(new Callback<List<GetUserInClassResponse>>() {
+            @Override
+            public void onResponse(Call<List<GetUserInClassResponse>> call, Response<List<GetUserInClassResponse>> response) {
+                if(!response.isSuccessful())
+                {
+                    Toast.makeText(getApplicationContext(), response.code(), Toast.LENGTH_SHORT).show();
+                }
+                getUserInClassResponse=response.body();
+                GetUserInClassResponse response1=getUserInClassResponse.get(0);
+                Toast.makeText(getApplicationContext(), String.valueOf(response1.email), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<List<GetUserInClassResponse>> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "Error get user", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    public void downloadInvoice()
+    {
+        Call<DownloadInvoiceResponse> call=apiService.downloadInvoiceCall();
+        call.enqueue(new Callback<DownloadInvoiceResponse>() {
+            @Override
+            public void onResponse(Call<DownloadInvoiceResponse> call, Response<DownloadInvoiceResponse> response) {
+                if(!response.isSuccessful())
+                {
+                    Toast.makeText(getApplicationContext(), response.code(), Toast.LENGTH_SHORT).show();
+                }
+                downloadInvoiceResponse=response.body();
+                Toast.makeText(getApplicationContext(), downloadInvoiceResponse.name, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<DownloadInvoiceResponse> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "error download invoice", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    public void cancelRequest()
+    {
+        Call<CancelRequestResponse> call=apiService.cancelReqCall();
+        call.enqueue(new Callback<CancelRequestResponse>() {
+            @Override
+            public void onResponse(Call<CancelRequestResponse> call, Response<CancelRequestResponse> response) {
+                if(!response.isSuccessful())
+                {
+                    Toast.makeText(getApplicationContext(), response.code(), Toast.LENGTH_SHORT).show();
+                }
+                cancelRequestResponse=response.body();
+                Toast.makeText(getApplicationContext(), cancelRequestResponse.show.message, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<CancelRequestResponse> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "cancel request error", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    public void deleteRequest()
+    {
+        Call<DeleteRequestResponse> call=apiService.deleteReqCall();
+        call.enqueue(new Callback<DeleteRequestResponse>() {
+            @Override
+            public void onResponse(Call<DeleteRequestResponse> call, Response<DeleteRequestResponse> response) {
+                if(!response.isSuccessful())
+                {
+                    Toast.makeText(getApplicationContext(),response.code(), Toast.LENGTH_SHORT).show();
+                }
+                deleteRequestResponse=response.body();
+                Toast.makeText(getApplicationContext(), deleteRequestResponse.show.message, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<DeleteRequestResponse> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "error delete request", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    public void sendReminder()
+    {
+        Call<SendReminderResponse> call=apiService.sendReminderCall(508,828);
+        call.enqueue(new Callback<SendReminderResponse>() {
+            @Override
+            public void onResponse(Call<SendReminderResponse> call, Response<SendReminderResponse> response) {
+                if(!response.isSuccessful())
+                {
+                    Toast.makeText(getApplicationContext(), response.code(), Toast.LENGTH_SHORT).show();
+                }
+                sendReminderResponse=response.body();
+                Toast.makeText(getApplicationContext(), sendReminderResponse.show.message, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<SendReminderResponse> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "error send reminder", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    public void allSettlements()
+    {
+        Call<AllSettlementsResponse> call=apiService.allSettleCall(1,100);
+        call.enqueue(new Callback<AllSettlementsResponse>() {
+            @Override
+            public void onResponse(Call<AllSettlementsResponse> call, Response<AllSettlementsResponse> response) {
+                if(!response.isSuccessful())
+                {
+                    Toast.makeText(getApplicationContext(), response.code(), Toast.LENGTH_SHORT).show();
+                }
+                allSettlementsResponse=response.body();
+                ItemAllSett response1=allSettlementsResponse.items.get(0);
+                Toast.makeText(getApplicationContext(), response1.status, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<AllSettlementsResponse> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "error all settlement", Toast.LENGTH_SHORT).show();
             }
         });
     }
